@@ -1,6 +1,6 @@
 const catchError = require('../utils/catchError');
 const jwt = require('jsonwebtoken');
-const user = require('../models/user');
+/* const user = require('../models/user'); */
 const { getAllServices, getOneServices, createServices, deleteServices, updateServices } = require('../services/user.services');
 
 const getAll = catchError(async(req, res) => {
@@ -46,9 +46,9 @@ const login = catchError(async (req, res) => {
     return res.json({ user, token });
   });
   
- /*  const logged = catchError(async (req, res) => {
+ const logged = catchError(async (req, res) => {
     return res.json(req.user);
-  }); */
+  }); 
 
 module.exports = {
     getAll,
@@ -57,5 +57,5 @@ module.exports = {
     remove,
     update,
     login,
-   /*  logged */
+    logged 
 }

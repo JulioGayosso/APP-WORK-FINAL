@@ -10,6 +10,7 @@ const app = require('../app')
 const request = require('supertest')
 
 let token
+let userId
 
 const BASE_URL = '/api/v1/users'
 
@@ -20,6 +21,8 @@ const user = {
   password: "julio1234",
   gender: "male"
 }
+
+// console.log(user);
 
 test("POST -> 'BASE_URL', should responde status code 201, and res.body.email === user.email", async () => {
 
@@ -46,7 +49,7 @@ test("POST -> 'BASE_URL/login', should return statusCode 200,  res.body.user and
 
 
   token = res.body.token
-  console.log(token);
+  // console.log(token);
   
 
   expect(res.status).toBe(200)
@@ -56,4 +59,40 @@ test("POST -> 'BASE_URL/login', should return statusCode 200,  res.body.user and
 
   expect(res.body.user.email).toBe(user.email)
 
+})
+
+test("POST -> 'BASE_URL/login', should return statusCode 401", async () => {
+
+  const res = await request(app)
+    .post(`${BASE_URL}/login`)
+    .send({
+      email: "email@false.com",
+      password: "julio1234",
+    })
+
+   console.log(res.body.error)
+
+  expect(res.status).toBe(401)
+  expect(res.body).toBeDefined()
+  expect(res.body.error).toBe('Invalid credentials')
+})
+
+test("Get -> 'BASE_URL', should return statusCode 200, and res.body.lentgth === 1", async () => {
+  const res = await request(app)
+    .get(BASE_URL)
+    .set('Authorization', `Bearer ${token}`)
+
+  expect(res.statusCode).toBe(200)
+  expect(res.body).toBeDefined()
+  expect(res.body).toHaveLength(1)
+})
+
+test("Get -> 'BASE_URL', should return statusCode 200, and res.body.email === user.email", async () => {
+  const res = await request(app)
+    .get(`BASE_URL/${userId}` )
+    .set('Authorization', `Bearer ${token}`)
+
+  expect(res.statusCode).toBe(200)
+  expect(res.body).toBeDefined()
+  expect(res.body).toHaveLength(user.email)
 })
