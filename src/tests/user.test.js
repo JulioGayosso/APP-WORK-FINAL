@@ -1,10 +1,11 @@
-//!1 post    🏥
-//!2 login   🏥
-//!3 getAll  🔒
-//!4 getOne  🔒
-//!5 logged  🔒
-//!6 put     🔒
-//!7 delete  🔒
+//!1 post    🏥  ✅
+//!2 login   🏥  ✅
+//!3 getAll  🔒  ✅
+//!4 getOne  🔒  ✅
+//!5 logged  🔒  ✅
+//!6 put     🔒  ✅
+//!7 delete  🔒  ✅
+
 
 const app = require('../app')
 const request = require('supertest')
@@ -29,6 +30,8 @@ test("POST -> 'BASE_URL', should responde status code 201, and res.body.email ==
   const res = await request(app)
     .post(BASE_URL)
     .send(user)
+
+  userId = res.body.id
 
   expect(res.status).toBe(201)
   expect(res.body).toBeDefined()
@@ -87,12 +90,34 @@ test("Get -> 'BASE_URL', should return statusCode 200, and res.body.lentgth === 
   expect(res.body).toHaveLength(1)
 })
 
-test("Get -> 'BASE_URL', should return statusCode 200, and res.body.email === user.email", async () => {
+
+test("Get -> 'BASE_URL/:id', should return statusCode 200, and res.body.email === user.email", async () => {
   const res = await request(app)
-    .get(`BASE_URL/${userId}` )
+    .get(`${BASE_URL}/${userId}`)
     .set('Authorization', `Bearer ${token}`)
+console.log(res.body)
 
   expect(res.statusCode).toBe(200)
   expect(res.body).toBeDefined()
-  expect(res.body).toHaveLength(user.email)
+  expect(res.body.email).toBe(user.email)
+})
+
+
+test("PUT -> 'BASE_URL/:id', should return statusCode 200, and res.body.firstName === user.firstName", async () => {
+  const res = await request(app)
+    .put(`${BASE_URL}/${userId}`)
+    .set('Authorization', `Bearer ${token}`)
+    .send({ firstName: "Julio" })
+
+  expect(res.statusCode).toBe(200)
+  expect(res.body).toBeDefined()
+  expect(res.body.firstName).toBe('Julio')
+})
+
+test("DELETE -> 'BASE_URL/:id', should return statusCode 204", async () => {
+  const res = await request(app)
+    .delete(`${BASE_URL}/${userId}`)
+    .set('Authorization', `Bearer ${token}`)
+
+  expect(res.statusCode).toBe(204)
 })

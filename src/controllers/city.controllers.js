@@ -1,36 +1,35 @@
+const { getAllServices, createServices, getOneServices, deleteServices, updateServices } = require('../services/city.services');
 const catchError = require('../utils/catchError');
-const login = require('../models/login');
+/* const city = require('../models/city'); */
+
 
 const getAll = catchError(async(req, res) => {
-    const results = await login.findAll();
+    const results = await getAllServices();
     return res.json(results);
 });
 
 const create = catchError(async(req, res) => {
-    const result = await login.create(req.body);
+    const result = await createServices(req.body);
     return res.status(201).json(result);
 });
 
 const getOne = catchError(async(req, res) => {
     const { id } = req.params;
-    const result = await login.findByPk(id);
+    const result = await getOneServices(id);
     if(!result) return res.sendStatus(404);
     return res.json(result);
 });
 
 const remove = catchError(async(req, res) => {
     const { id } = req.params;
-    const result = await login.destroy({ where: {id} });
+    const result = await deleteServices(id);
     if(!result) return res.sendStatus(404);
     return res.sendStatus(204);
 });
 
 const update = catchError(async(req, res) => {
     const { id } = req.params;
-    const result = await login.update(
-        req.body,
-        { where: {id}, returning: true }
-    );
+    const result = await updateServices(req.body,id)
     if(result[0] === 0) return res.sendStatus(404);
     return res.json(result[1][0]);
 });
