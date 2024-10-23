@@ -1,7 +1,7 @@
-const {hotel,city,image} = require('../models')
+const {hotel,city,image ,booking, review} = require('../models')
 
 const getAllServices = async() => {
-     return await hotel.findAll({include:[city , image]})
+     return await hotel.findAll({include:[city , image , booking, review]})
 } 
 
 
