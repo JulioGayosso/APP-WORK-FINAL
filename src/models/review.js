@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       review.belongsTo(models.hotel)
     }
   }
-  reviews.init({
+  review.init({
     rating:{
       type: DataTypes.DECIMAL,
       allowNull:false
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
 
   }, {
     sequelize,
-    modelName: 'reviews',
+    modelName: 'review',
   });
   return review;
 };

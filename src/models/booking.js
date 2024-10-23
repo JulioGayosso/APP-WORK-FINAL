@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       booking.belongsTo(models.hotel)
     }
   }
-  bookings.init({
+  booking.init({
     checkIn: {
       type:DataTypes.DATEONLY,
       allowNull:false
