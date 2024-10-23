@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       hotel.belongsTo(models.city)
+      hotel.hasMany(models.image)
+      hotel.hasMany(models.review)
+      hotel.hasMany(models.booking)
     }
   }
   hotel.init({

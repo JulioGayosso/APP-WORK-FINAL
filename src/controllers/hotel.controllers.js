@@ -30,6 +30,7 @@ const update = catchError(async(req, res) => {
     const result = await updateServices(req.body, id)
     if(result[0] === 0) return res.sendStatus(404);
     return res.json(result[1][0]);
+    
 });
 
 module.exports = {

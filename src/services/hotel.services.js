@@ -1,7 +1,7 @@
-const {hotel,city} = require('../models')
+const {hotel,city,image} = require('../models')
 
 const getAllServices = async() => {
-     return await hotel.findAll({include:[city]})
+     return await hotel.findAll({include:[city , image]})
 } 
 
 
@@ -11,7 +11,7 @@ const createServices = async(body) => {
 
 
 const getOneServices = async(id) => {
-    return await hotel.findByPk(id)
+    return await hotel.findByPk(id ,{include:[city]})
 } 
 
 

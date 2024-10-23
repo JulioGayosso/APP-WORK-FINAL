@@ -2,6 +2,7 @@ const express = require('express');
 const routerUser = require('./users.router');
 const routerCity = require('./city.router');
 const routerHotel = require('./hotel.router');
+const routerImage = require('./image.router');
 const router = express.Router();
 
 
@@ -9,6 +10,8 @@ const router = express.Router();
 router.use('/users',routerUser)
 router.use('/cities',routerCity)
 router.use('/hotels',routerHotel)
+router.use('/images', routerImage)
+
 
 module.exports = router;
 
